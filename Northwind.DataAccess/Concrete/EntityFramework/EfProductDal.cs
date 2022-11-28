@@ -4,11 +4,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Northwind.Entities.Abstract;
 using Northwind.Entities.Concrete;
 
-namespace Northwind.DataAccess.Concrete
+namespace Northwind.DataAccess.Concrete.EntityFramework
 {
-    public class ProductDal
+    public class EfProductDal : IProductDal
     {
         public List<Product> GetAll() 
         {
