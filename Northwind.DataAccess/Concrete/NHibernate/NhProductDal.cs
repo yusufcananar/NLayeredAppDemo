@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Northwind.Entities.Abstract;
@@ -20,12 +21,12 @@ namespace Northwind.DataAccess.Concrete.NHibernate
             throw new NotImplementedException();
         }
 
-        public Product Get(int id)
+        public Product Get(Expression<Func<Product, bool>> filter)
         {
             throw new NotImplementedException();
         }
 
-        public List<Product> GetAll()
+        public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
         {
             //Mocking the NHibernate 
             List<Product> products = new List<Product> {
