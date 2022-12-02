@@ -122,6 +122,30 @@ namespace Northwind.WebFormsUI
             tbxUpdateUnitPrice.Text = row.Cells[3].Value.ToString();
             tbxUpdateQuantityPerUnit.Text = row.Cells[4].Value.ToString();
             tbxUpdateUnitsInStock.Text = row.Cells[5].Value.ToString();
+
+            tbxDeleteProductName.Text = row.Cells[2].Value.ToString();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgwProduct.CurrentRow != null)
+            {
+                try
+                {
+                    _productService.Delete(new Product
+                    {
+                        ProductId = Convert.ToInt32(dgwProduct.CurrentRow.Cells[0].Value)
+                    });
+                    MessageBox.Show("Product Deleted !");
+                    LoadProducts();
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                }
+
+            }
+
         }
     }
 }

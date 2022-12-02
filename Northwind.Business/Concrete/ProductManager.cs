@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +25,19 @@ namespace Northwind.Business.Concrete
         public void Add(Product product)
         {
             _productDal.Add(product);
+        }
+
+        public void Delete(Product product)
+        {
+            try
+            {
+                _productDal.Delete(product);
+            }
+            catch //(DbUpdateException exception)
+            {
+                throw new Exception("Deletion is failed !");
+            }
+           
         }
 
         public List<Product> GetAll()
