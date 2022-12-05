@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Northwind.Business.Abstract;
 using Northwind.Business.Concrete;
+using Northwind.Business.DepedencyResolvers.Ninject;
 using Northwind.DataAccess.Concrete.EntityFramework;
 using Northwind.DataAccess.Concrete.NHibernate;
 using Northwind.Entities.Concrete;
@@ -22,8 +23,8 @@ namespace Northwind.WebFormsUI
         public Form1()
         {
             InitializeComponent();
-            _productService = new ProductManager(new EfProductDal());
-            _categoryService = new CategoryManager(new EfCategoryDal());
+            _productService = InstanceFactory.GetInstance<IProductService>();
+            _categoryService = InstanceFactory.GetInstance<ICategoryService>();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -87,16 +88,26 @@ namespace Northwind.WebFormsUI
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            _productService.Add(new Product
+
+            try
             {
-                CategoryId = Convert.ToInt32(cbxAddCategoryId.SelectedValue),
-                ProductName = tbxAddProductName.Text,
-                UnitPrice = Convert.ToDecimal(tbxAddUnitPrice.Text),
-                QuantityPerUnit = tbxAddQuantityPerUnit.Text,
-                UnitsInStock = Convert.ToInt16(tbxAddUnitsInStock.Text)
-            });
-            MessageBox.Show("Product Added !");
-            LoadProducts();
+                _productService.Add(new Product
+                {
+                    CategoryId = Convert.ToInt32(cbxAddCategoryId.SelectedValue),
+                    ProductName = tbxAddProductName.Text,
+                    UnitPrice = Convert.ToDecimal(tbxAddUnitPrice.Text),
+                    QuantityPerUnit = tbxAddQuantityPerUnit.Text,
+                    UnitsInStock = Convert.ToInt16(tbxAddUnitsInStock.Text)
+                });
+                MessageBox.Show("Product Added !");
+                LoadProducts();
+            }
+            catch (Exception exception)
+            {
+
+                MessageBox.Show(exception.Message);
+            }
+            
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
